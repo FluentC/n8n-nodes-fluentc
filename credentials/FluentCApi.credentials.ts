@@ -8,7 +8,7 @@ import {
 export class FluentCApi implements ICredentialType {
 	name = 'fluentCApi';
 	displayName = 'FluentC API';
-	documentationUrl = 'https://fluentc.ai/docs';
+	documentationUrl = 'https://docs.fluentc.io/';
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',
@@ -17,7 +17,7 @@ export class FluentCApi implements ICredentialType {
 			typeOptions: { password: true },
 			default: '',
 			required: true,
-			description: 'Your FluentC API key obtained from the sales website',
+			description: 'Your FluentC API key obtained from FluentC Dashboard https://dashboard.fluentc.io',
 		},
 	];
 
@@ -32,13 +32,9 @@ export class FluentCApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://api.fluentc.ai',
-			url: '/checklanguage',
-			method: 'POST',
-			body: {
-				input: 'Hello world',
-				input_format: 'text',
-			},
+			baseURL: 'https://dashboard.fluentc.ai/ai_agent',
+			url: '/languages',
+			method: 'GET',
 		},
 	};
 }

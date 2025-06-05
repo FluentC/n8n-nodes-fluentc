@@ -15,14 +15,86 @@ This N8N community plugin provides integration with the FluentC AI Translation A
 
 ## Installation
 
-1. Install the plugin in your N8N instance:
-```bash
-npm install n8n-nodes-fluentc
+The installation method depends on your n8n setup. Choose the appropriate method below:
+
+### Method 1: n8n GUI Installation (Recommended for self-hosted n8n)
+
+This is the easiest method for self-hosted n8n instances:
+
+1. **Open n8n Settings**: In your n8n instance, go to **Settings** > **Community Nodes**
+2. **Install Node**: Click **Install** 
+3. **Enter Package Name**: Enter `n8n-nodes-fluentc` in the "Enter npm package name" field
+4. **Accept Risk**: Check "I understand the risks of installing unverified code from a public source"
+5. **Install**: Click **Install**
+6. **Restart**: The nodes will be available immediately after installation
+
+### Method 2: Verified Community Nodes (for n8n Cloud and recent versions)
+
+If this package gets verified by n8n (future goal):
+
+1. **Open Nodes Panel**: Go to the Canvas and open the nodes panel (click '+' or press Tab)
+2. **Search**: Search for "FluentC" 
+3. **Install from Community**: Look for the "More from the community" section
+4. **Install**: Click on the FluentC node and select **Install**
+
+### Method 3: Manual Installation (for Docker/advanced setups)
+
+For Docker containers, queue mode, or when GUI installation isn't available:
+
+#### For Docker Containers:
+
+1. **Access Docker Shell**: 
+   ```bash
+   docker exec -it [your-n8n-container-name] sh
+   ```
+
+2. **Create nodes directory** (if it doesn't exist):
+   ```bash
+   mkdir -p ~/.n8n/nodes
+   cd ~/.n8n/nodes
+   ```
+
+3. **Install the package**:
+   ```bash
+   npm install n8n-nodes-fluentc
+   ```
+
+4. **Restart n8n container**
+
+#### For npm-based installations:
+
+1. **Navigate to n8n nodes directory**:
+   ```bash
+   cd ~/.n8n/nodes
+   ```
+   (Create the directory if it doesn't exist: `mkdir -p ~/.n8n/nodes`)
+
+2. **Install the package**:
+   ```bash
+   npm install n8n-nodes-fluentc
+   ```
+
+3. **Restart n8n**
+
+### Method 4: Custom Docker Build
+
+For permanent installation in a custom Docker image:
+
+```dockerfile
+FROM n8nio/n8n:latest
+RUN cd ~/.n8n/ && mkdir -p nodes && cd nodes && npm install n8n-nodes-fluentc
 ```
 
-2. Restart your N8N instance
+## Verification
 
-3. The FluentC nodes will appear in your node palette under the "Transform" category
+After installation, verify the nodes are available:
+
+1. Create a new workflow
+2. Click the '+' button to add a node
+3. Search for "FluentC" in the node search
+4. You should see:
+   - **FluentC Translate** (with package icon)
+   - **FluentC Check Language** (with package icon)
 
 ## Setup
 
@@ -101,6 +173,31 @@ This node detects the language of input content.
 2. Connect it to a **FluentC Translate** node
 3. Use the detected language as the source language parameter
 
+## Troubleshooting
+
+### Nodes Not Appearing
+
+If nodes don't appear after installation:
+
+1. **Check Installation Method**: Ensure you used the correct method for your setup
+2. **Restart n8n**: Always restart n8n after manual installation
+3. **Check Directory**: For manual installs, verify the package is in `~/.n8n/nodes/`
+4. **Check Permissions**: Ensure n8n has read permissions for the nodes directory
+5. **Check Logs**: Look at n8n logs for any error messages during startup
+
+### Permission Issues
+
+For Docker installations, you might need to ensure proper permissions:
+
+```bash
+# Inside the container
+chown -R node:node ~/.n8n/nodes
+```
+
+### Queue Mode
+
+If you're running n8n in queue mode, you **must** use manual installation (Method 3).
+
 ## Error Handling
 
 The plugin includes comprehensive error handling:
@@ -114,6 +211,16 @@ The plugin includes comprehensive error handling:
 
 The plugin respects FluentC API rate limits and uses the recommended polling intervals returned by the batch API to avoid overwhelming the service.
 
+## Development & Publishing
+
+This package follows n8n community node standards:
+
+- ✅ Package name starts with `n8n-nodes-`
+- ✅ Includes `n8n-community-node-package` keyword
+- ✅ No runtime dependencies (only devDependencies)
+- ✅ Proper n8n configuration in package.json
+- ✅ Built TypeScript with proper exports
+
 ## Support
 
 For issues related to this N8N plugin, please check:
@@ -121,6 +228,7 @@ For issues related to this N8N plugin, please check:
 1. **FluentC API Documentation**: https://fluentc.ai/docs
 2. **N8N Community**: https://community.n8n.io
 3. **Plugin Repository**: https://github.com/fluentc/n8n-nodes-fluentc
+4. **n8n Community Nodes Documentation**: https://docs.n8n.io/integrations/community-nodes/
 
 ## License
 
