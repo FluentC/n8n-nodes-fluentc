@@ -1,0 +1,56 @@
+{
+    "name": "n8n-nodes-fluentc",
+    "version": "1.0.0",
+    "description": "N8N nodes for FluentC AI Translation API",
+    "keywords": [
+        "n8n-community-node-package",
+        "translation",
+        "ai",
+        "fluentc"
+    ],
+    "license": "MIT",
+    "homepage": "https://www.fluentc.io",
+    "author": {
+        "name": "FluentC",
+        "email": "support@fluentc.io"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fluentc/n8n-nodes-fluentc.git"
+    },
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc && gulp build:icons",
+        "dev": "tsc --watch",
+        "format": "prettier nodes credentials --write",
+        "lint": "eslint \"dist/**/*.js\" \"*.js\"",
+        "lintfix": "eslint \"dist/**/*.js\" \"*.js\" --fix",
+        "prepublishOnly": "npm run build && npm run lint -s"
+    },
+    "files": [
+        "dist"
+    ],
+    "n8n": {
+        "n8nNodesApiVersion": 1,
+        "credentials": [
+            "dist/credentials/FluentCApi.credentials.js"
+        ],
+        "nodes": [
+            "dist/nodes/FluentCTranslate/FluentCTranslate.node.js",
+            "dist/nodes/FluentCCheckLanguage/FluentCCheckLanguage.node.js"
+        ]
+    },
+    "devDependencies": {
+        "@types/node": "^18.16.1",
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
+        "@typescript-eslint/parser": "^5.62.0",
+        "eslint": "^8.37.0",
+        "gulp": "^4.0.2",
+        "n8n-workflow": "*",
+        "prettier": "^2.8.7",
+        "typescript": "^4.8.4"
+    },
+    "peerDependencies": {
+        "n8n-workflow": "*"
+    }
+}
