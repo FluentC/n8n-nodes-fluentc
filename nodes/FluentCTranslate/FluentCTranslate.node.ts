@@ -198,7 +198,7 @@ export class FluentCTranslate implements INodeType {
 						},
 					);
 
-					const languages = response.source_languages;
+					const languages = response.supported_languages;
 					
 					const options = languages.map((lang: any) => ({
 						name: `${lang.name} (${lang.code})`,
