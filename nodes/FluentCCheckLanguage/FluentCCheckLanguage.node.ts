@@ -77,7 +77,7 @@ export class FluentCCheckLanguage implements INodeType {
 					'fluentCApi',
 					{
 						method: 'POST',
-						url: 'https://dashboard.fluentc.ai/ai_agent/checklanguage',
+						url: 'https://dashboard.fluentc.io/ai_agent/checklanguage',
 						body: requestBody,
 						json: true,
 					},

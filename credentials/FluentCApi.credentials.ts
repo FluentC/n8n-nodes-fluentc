@@ -32,7 +32,7 @@ export class FluentCApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://dashboard.fluentc.ai/ai_agent',
+			baseURL: 'https://dashboard.fluentc.io/ai_agent',
 			url: '/languages',
 			method: 'GET',
 		},

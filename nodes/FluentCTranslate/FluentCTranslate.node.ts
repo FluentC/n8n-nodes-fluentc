@@ -151,7 +151,7 @@ export class FluentCTranslate implements INodeType {
 						'fluentCApi',
 						{
 							method: 'GET',
-							url: 'https://dashboard.fluentc.ai/ai_agent/languages',
+							url: 'https://dashboard.fluentc.io/ai_agent/languages',
 							json: true,
 						},
 					);
@@ -193,7 +193,7 @@ export class FluentCTranslate implements INodeType {
 						'fluentCApi',
 						{
 							method: 'GET',
-							url: 'https://dashboard.fluentc.ai/ai_agent/languages',
+							url: 'https://dashboard.fluentc.io/ai_agent/languages',
 							json: true,
 						},
 					);
@@ -285,7 +285,7 @@ export class FluentCTranslate implements INodeType {
 					'fluentCApi',
 					{
 						method: 'POST',
-						url: 'https://dashboard.fluentc.ai/ai_agent/translate',
+						url: 'https://dashboard.fluentc.io/ai_agent/translate',
 						body: requestBody,
 						json: true,
 					},
@@ -346,7 +346,7 @@ export class FluentCTranslate implements INodeType {
 				'fluentCApi',
 				{
 					method: 'POST',
-					url: 'https://dashboard.fluentc.ai/ai_agent/results',
+					url: 'https://dashboard.fluentc.io/ai_agent/results',
 					body: { job_id: jobId },
 					json: true,
 				},
