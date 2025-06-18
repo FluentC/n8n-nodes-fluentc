@@ -6,6 +6,7 @@ This N8N community plugin provides integration with the FluentC AI Translation A
 
 - **Translation**: Support for both real-time and batch translation modes
 - **Language Detection**: Detect the language of input content
+- **Language Retrieval**: Fetch lists of supported and source languages
 - **Dynamic Language Selection**: Dropdown menus populated with your API key's enabled languages
 - **Format Support**: Handle both text and HTML content
 - **Automatic Polling**: Batch jobs are automatically polled until completion
@@ -95,6 +96,7 @@ After installation, verify the nodes are available:
 4. You should see:
    - **FluentC Translate** (with package icon)
    - **FluentC Check Language** (with package icon)
+   - **FluentC Languages** (with package icon)
 
 ## Setup
 
@@ -147,6 +149,17 @@ This node detects the language of input content.
 - `input_format`: Input format processed
 - `input_length`: Length of analyzed content
 
+#### FluentC Languages Node
+
+This node fetches the lists of supported and source languages from your FluentC account.
+
+**Parameters:**
+This node has no parameters. It only requires a configured FluentC API credential.
+
+**Output:**
+- `supported_languages`: An array of objects, each with `code` and `name` of a language available for translation as a target.
+- `source_languages`: An array of objects, each with `code` and `name` of a language available as a source for translation.
+
 ## Usage Examples
 
 ### Basic Translation Workflow
@@ -172,6 +185,12 @@ This node detects the language of input content.
 1. Add a **FluentC Check Language** node first
 2. Connect it to a **FluentC Translate** node
 3. Use the detected language as the source language parameter
+
+### Retrieving Language Lists
+
+1. Add a **FluentC Languages** node to your workflow.
+2. Execute the node.
+3. The output will contain two arrays: `supported_languages` and `source_languages`, which you can then use in other parts of your workflow.
 
 ## Troubleshooting
 

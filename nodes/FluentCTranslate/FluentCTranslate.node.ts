@@ -74,6 +74,10 @@ export class FluentCTranslate implements INodeType {
 						name: 'HTML',
 						value: 'html',
 					},
+					{
+						name: 'JSON',
+						value: 'json',
+					},
 				],
 				default: 'text',
 				description: 'Format of the input content',
@@ -114,7 +118,7 @@ export class FluentCTranslate implements INodeType {
 							minValue: 1,
 							maxValue: 100,
 						},
-						default: 30,
+						default: 60,
 						description: 'Maximum number of polling attempts for batch jobs',
 						displayOptions: {
 							show: {
@@ -299,7 +303,7 @@ export class FluentCTranslate implements INodeType {
 				} else {
 					// Batch mode requires polling
 					const jobId = response.job_id;
-					const maxAttempts = additionalFields.maxPollingAttempts || 30;
+					const maxAttempts = additionalFields.maxPollingAttempts || 60;
 					
 					result = await FluentCTranslate.pollForBatchResult(this, jobId, maxAttempts);
 				}
@@ -361,7 +365,7 @@ export class FluentCTranslate implements INodeType {
 			}
 
 			// Wait for the recommended time before next poll
-			const waitSeconds = response.estimated_wait_seconds || 5;
+			const waitSeconds = Math.max(response.estimated_wait_seconds || 0, 5);
 			await new Promise(resolve => setTimeout(resolve, waitSeconds * 1000));
 			
 			attempts++;

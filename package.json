@@ -37,7 +37,8 @@
         ],
         "nodes": [
             "dist/nodes/FluentCTranslate/FluentCTranslate.node.js",
-            "dist/nodes/FluentCCheckLanguage/FluentCCheckLanguage.node.js"
+            "dist/nodes/FluentCCheckLanguage/FluentCCheckLanguage.node.js",
+            "dist/nodes/FluentCLanguages/FluentCLanguages.node.js"
         ]
     },
     "devDependencies": {
