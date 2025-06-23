@@ -343,6 +343,7 @@ export class FluentCTranslate implements INodeType {
 
 	private static async pollForBatchResult(executeFunctions: IExecuteFunctions, jobId: string, maxAttempts: number): Promise<any> {
 		let attempts = 0;
+		let lastResponse: any = null;
 		
 		while (attempts < maxAttempts) {
 			const response = await executeFunctions.helpers.httpRequestWithAuthentication.call(
@@ -355,6 +356,8 @@ export class FluentCTranslate implements INodeType {
 					json: true,
 				},
 			);
+
+			lastResponse = response;
 
 			if (response.status === 'complete') {
 				return response;
@@ -371,6 +374,6 @@ export class FluentCTranslate implements INodeType {
 			attempts++;
 		}
 
-		throw new NodeOperationError(executeFunctions.getNode(), `Batch translation timed out after ${maxAttempts} attempts`);
+		throw new NodeOperationError(executeFunctions.getNode(), `Batch translation timed out for job_id ${jobId} after ${maxAttempts} attempts. Last response: ${JSON.stringify(lastResponse)}`);
 	}
 }
