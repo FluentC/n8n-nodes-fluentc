@@ -369,7 +369,12 @@ export class FluentCTranslate implements INodeType {
 
 			// Wait for the recommended time before next poll
 			const waitSeconds = Math.max(response.estimated_wait_seconds || 0, 5);
-			await new Promise(resolve => setTimeout(resolve, waitSeconds * 1000));
+			// Use a simple polling-based delay for n8n compliance
+			const startTime = Date.now();
+			while (Date.now() - startTime < waitSeconds * 1000) {
+				// Non-blocking wait using Promise.resolve() to yield control
+				await Promise.resolve();
+			}
 			
 			attempts++;
 		}
