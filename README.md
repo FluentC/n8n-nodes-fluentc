@@ -246,7 +246,7 @@ For issues related to this N8N plugin, please check:
 
 1. **FluentC API Documentation**: https://fluentc.ai/docs
 2. **N8N Community**: https://community.n8n.io
-3. **Plugin Repository**: https://github.com/FluentC/n8n-plugin
+3. **Plugin Repository**: https://github.com/FluentC/n8n-nodes-fluentc
 4. **n8n Community Nodes Documentation**: https://docs.n8n.io/integrations/community-nodes/
 
 ## License
