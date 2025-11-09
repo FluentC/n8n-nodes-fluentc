@@ -7,6 +7,7 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 	NodeConnectionType,
+	NodeParameterValue,
 } from 'n8n-workflow';
 
 export class FluentCTranslate implements INodeType {
@@ -260,20 +261,43 @@ export class FluentCTranslate implements INodeType {
 		for (let i = 0; i < items.length; i++) {
 			try {
 				const mode = this.getNodeParameter('mode', i) as string;
-				const input = this.getNodeParameter('input', i) as string;
+				const rawInput = this.getNodeParameter('input', i) as NodeParameterValue;
 				const inputFormat = this.getNodeParameter('inputFormat', i) as string;
 				const targetLanguage = this.getNodeParameter('targetLanguage', i) as string;
 				const sourceLanguage = this.getNodeParameter('sourceLanguage', i) as string;
 				const additionalFields = this.getNodeParameter('additionalFields', i) as any;
 
 				// Validate input size
-				if (Buffer.byteLength(input, 'utf8') > 100000) {
+				const inputAsString =
+					typeof rawInput === 'string'
+						? rawInput
+						: JSON.stringify(rawInput ?? '');
+
+				if (Buffer.byteLength(inputAsString, 'utf8') > 100000) {
 					throw new NodeOperationError(this.getNode(), 'Input content exceeds 100,000 bytes limit');
+				}
+
+				let preparedInput: any = rawInput;
+
+				if (inputFormat === 'json') {
+					if (typeof rawInput === 'string') {
+						try {
+							preparedInput = JSON.parse(rawInput);
+						} catch (error) {
+							throw new NodeOperationError(
+								this.getNode(),
+								`Invalid JSON input: ${(error as Error).message}`,
+								{ itemIndex: i },
+							);
+						}
+					}
+				} else if (typeof rawInput !== 'string') {
+					preparedInput = inputAsString;
 				}
 
 				// Prepare request body
 				const requestBody: any = {
-					input,
+					input: preparedInput,
 					input_format: inputFormat,
 					target_language: targetLanguage,
 					mode,
