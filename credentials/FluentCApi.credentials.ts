@@ -8,7 +8,7 @@ import {
 export class FluentCApi implements ICredentialType {
 	name = 'fluentCApi';
 	displayName = 'FluentC API';
-	documentationUrl = 'https://docs.fluentc.io/';
+	documentationUrl = 'https://dashboard.fluentc.io/';
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',
