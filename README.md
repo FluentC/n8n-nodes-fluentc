@@ -8,7 +8,7 @@ This N8N community plugin provides integration with the FluentC AI Translation A
 - **Language Detection**: Detect the language of input content
 - **Language Retrieval**: Fetch lists of supported and source languages
 - **Dynamic Language Selection**: Dropdown menus populated with your API key's enabled languages
-- **Format Support**: Handle both text and HTML content
+- **Format Support**: Handle text, HTML, and JSON content
 - **Automatic Polling**: Batch jobs are automatically polled until completion
 - **Comprehensive Output**: Returns all metadata including token counts, detected languages, and model information
 - **Error Handling**: Graceful error handling with continue-on-fail support
@@ -23,7 +23,7 @@ The installation method depends on your n8n setup. Choose the appropriate method
 This is the easiest method for self-hosted n8n instances:
 
 1. **Open n8n Settings**: In your n8n instance, go to **Settings** > **Community Nodes**
-2. **Install Node**: Click **Install** 
+2. **Install Node**: Click **Install**
 3. **Enter Package Name**: Enter `n8n-nodes-fluentc` in the "Enter npm package name" field
 4. **Accept Risk**: Check "I understand the risks of installing unverified code from a public source"
 5. **Install**: Click **Install**
@@ -34,7 +34,7 @@ This is the easiest method for self-hosted n8n instances:
 If this package gets verified by n8n (future goal):
 
 1. **Open Nodes Panel**: Go to the Canvas and open the nodes panel (click '+' or press Tab)
-2. **Search**: Search for "FluentC" 
+2. **Search**: Search for "FluentC"
 3. **Install from Community**: Look for the "More from the community" section
 4. **Install**: Click on the FluentC node and select **Install**
 
@@ -44,7 +44,7 @@ For Docker containers, queue mode, or when GUI installation isn't available:
 
 #### For Docker Containers:
 
-1. **Access Docker Shell**: 
+1. **Access Docker Shell**:
    ```bash
    docker exec -it [your-n8n-container-name] sh
    ```
@@ -88,15 +88,12 @@ RUN cd ~/.n8n/ && mkdir -p nodes && cd nodes && npm install n8n-nodes-fluentc
 
 ## Verification
 
-After installation, verify the nodes are available:
+After installation, verify the node is available:
 
 1. Create a new workflow
 2. Click the '+' button to add a node
 3. Search for "FluentC" in the node search
-4. You should see:
-   - **FluentC Translate** (with package icon)
-   - **FluentC Check Language** (with package icon)
-   - **FluentC Languages** (with package icon)
+4. You should see the **FluentC** node (with package icon)
 
 ## Setup
 
@@ -107,19 +104,21 @@ After installation, verify the nodes are available:
 3. Enter your FluentC API key (obtained from the FluentC sales website)
 4. Test and save the credential
 
-### 2. Using the Nodes
+### 2. Using the Node
 
-#### FluentC Translate Node
+The FluentC node uses a **Resource** and **Operation** pattern. Select the resource for the task you want to perform, then choose the operation.
 
-This node handles text and HTML translation with support for both real-time and batch modes.
+#### Translation > Translate
+
+Translate text, HTML, or JSON content with support for both real-time and batch modes.
 
 **Parameters:**
 - **Mode**: Choose between "Real-time" (synchronous) or "Batch" (asynchronous)
-- **Input**: Text or HTML content to translate (max 100,000 bytes)
-- **Input Format**: Select "Text" or "HTML"
+- **Input**: Text, HTML, or JSON content to translate (max 100,000 bytes)
+- **Input Format**: Select "Text", "HTML", or "JSON"
 - **Target Language**: Dropdown populated with your enabled target languages
 - **Source Language**: Dropdown with your enabled source languages (optional, includes "Auto-detect")
-- **Max Polling Attempts**: (Batch mode only) Maximum polling attempts for batch jobs (default: 30)
+- **Max Polling Attempts**: (Batch mode only) Maximum polling attempts for batch jobs (default: 60)
 
 **Language Management:**
 The language dropdowns are dynamically populated based on your API key's enabled languages. If you need additional languages, you'll see a link to visit www.fluentc.io to manage your language access.
@@ -135,9 +134,9 @@ The node returns all available data including:
 - `input_format`: Input format processed
 - `target_language`: Target language
 
-#### FluentC Check Language Node
+#### Language Detection > Detect
 
-This node detects the language of input content.
+Detect the language of input content.
 
 **Parameters:**
 - **Input**: Text or HTML content to analyze
@@ -149,12 +148,12 @@ This node detects the language of input content.
 - `input_format`: Input format processed
 - `input_length`: Length of analyzed content
 
-#### FluentC Languages Node
+#### Language > Get Many
 
-This node fetches the lists of supported and source languages from your FluentC account.
+Fetch the lists of supported and source languages from your FluentC account.
 
 **Parameters:**
-This node has no parameters. It only requires a configured FluentC API credential.
+This operation has no additional parameters. It only requires a configured FluentC API credential.
 
 **Output:**
 - `supported_languages`: An array of objects, each with `code` and `name` of a language available for translation as a target.
@@ -164,39 +163,53 @@ This node has no parameters. It only requires a configured FluentC API credentia
 
 ### Basic Translation Workflow
 
-1. Add a **FluentC Translate** node to your workflow
-2. Configure it with:
+1. Add a **FluentC** node to your workflow
+2. Select Resource: **Translation**, Operation: **Translate**
+3. Configure it with:
    - Mode: "Real-time"
    - Input: "Hello, how are you today?"
    - Input Format: "Text"
    - Target Language: Select "Spanish (es)" from dropdown
-3. The output will include the Spanish translation and metadata
+4. The output will include the Spanish translation and metadata
 
 ### Batch Translation for Large Content
 
-1. Use **FluentC Translate** node with:
+1. Use the **FluentC** node with Resource: **Translation**, Operation: **Translate**
+2. Configure with:
    - Mode: "Batch"
    - Input: Your large HTML or text content
    - Target Language: Your desired language code
-2. The node will automatically poll until the translation is complete
+3. The node will automatically poll until the translation is complete
 
 ### Language Detection Before Translation
 
-1. Add a **FluentC Check Language** node first
-2. Connect it to a **FluentC Translate** node
+1. Add a **FluentC** node with Resource: **Language Detection**, Operation: **Detect**
+2. Connect it to another **FluentC** node with Resource: **Translation**, Operation: **Translate**
 3. Use the detected language as the source language parameter
 
 ### Retrieving Language Lists
 
-1. Add a **FluentC Languages** node to your workflow.
-2. Execute the node.
-3. The output will contain two arrays: `supported_languages` and `source_languages`, which you can then use in other parts of your workflow.
+1. Add a **FluentC** node with Resource: **Language**, Operation: **Get Many**
+2. Execute the node
+3. The output will contain two arrays: `supported_languages` and `source_languages`, which you can use in other parts of your workflow
+
+## Migration from v1.x
+
+Version 2.0 consolidates the three separate nodes from v1.x into a single **FluentC** node:
+
+| v1.x Node | v2.0 Resource | v2.0 Operation |
+|---|---|---|
+| FluentC Translate | Translation | Translate |
+| FluentC Check Language | Language Detection | Detect |
+| FluentC Languages | Language | Get Many |
+
+Existing workflows using the old nodes must be updated manually. Parameter names within each operation remain the same, so expressions referencing fields like `input`, `targetLanguage`, or `mode` should continue to work after migration.
 
 ## Troubleshooting
 
-### Nodes Not Appearing
+### Node Not Appearing
 
-If nodes don't appear after installation:
+If the node doesn't appear after installation:
 
 1. **Check Installation Method**: Ensure you used the correct method for your setup
 2. **Restart n8n**: Always restart n8n after manual installation
@@ -222,7 +235,7 @@ If you're running n8n in queue mode, you **must** use manual installation (Metho
 The plugin includes comprehensive error handling:
 
 - **Content Size Validation**: Prevents requests exceeding 100,000 bytes
-- **Batch Timeout Protection**: Limits polling attempts to prevent infinite loops  
+- **Batch Timeout Protection**: Limits polling attempts to prevent infinite loops
 - **API Error Handling**: Gracefully handles API errors and rate limits
 - **Continue on Fail**: Option to continue workflow execution even if translation fails
 
@@ -239,6 +252,7 @@ This package follows n8n community node standards:
 - ✅ No runtime dependencies (only devDependencies)
 - ✅ Proper n8n configuration in package.json
 - ✅ Built TypeScript with proper exports
+- ✅ Single action node with Resource/Operation pattern
 
 ## Support
 

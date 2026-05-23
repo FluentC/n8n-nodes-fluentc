@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-fluentc.fluentC",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Miscellaneous"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://dashboard.fluentc.io/"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/FluentC/n8n-nodes-fluentc"
+			}
+		]
+	}
+}
