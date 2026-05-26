@@ -42,7 +42,7 @@ export const description: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Real-time',
+				name: 'Real-Time',
 				value: 'real-time',
 				description: 'Synchronous translation (faster for small content)',
 			},

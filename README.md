@@ -113,11 +113,11 @@ The FluentC node uses a **Resource** and **Operation** pattern. Select the resou
 Translate text, HTML, or JSON content with support for both real-time and batch modes.
 
 **Parameters:**
-- **Mode**: Choose between "Real-time" (synchronous) or "Batch" (asynchronous)
+- **Mode**: Choose between "Real-Time" (synchronous) or "Batch" (asynchronous)
 - **Input**: Text, HTML, or JSON content to translate (max 100,000 bytes)
 - **Input Format**: Select "Text", "HTML", or "JSON"
 - **Target Language**: Dropdown populated with your enabled target languages
-- **Source Language**: Dropdown with your enabled source languages (optional, includes "Auto-detect")
+- **Source Language**: Dropdown with your enabled source languages (optional, includes "Auto-Detect")
 - **Max Polling Attempts**: (Batch mode only) Maximum polling attempts for batch jobs (default: 60)
 
 **Language Management:**
@@ -166,7 +166,7 @@ This operation has no additional parameters. It only requires a configured Fluen
 1. Add a **FluentC** node to your workflow
 2. Select Resource: **Translation**, Operation: **Translate**
 3. Configure it with:
-   - Mode: "Real-time"
+   - Mode: "Real-Time"
    - Input: "Hello, how are you today?"
    - Input Format: "Text"
    - Target Language: Select "Spanish (es)" from dropdown

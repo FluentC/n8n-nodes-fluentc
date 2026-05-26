@@ -1,4 +1,4 @@
-import { IExecuteFunctions, NodeOperationError } from 'n8n-workflow';
+import { IExecuteFunctions, NodeOperationError, sleep } from 'n8n-workflow';
 
 export async function pollForBatchResult(
 	executeFunctions: IExecuteFunctions,
@@ -34,10 +34,7 @@ export async function pollForBatchResult(
 		}
 
 		const waitSeconds = Math.max((response.estimated_wait_seconds as number) || 0, 5);
-		const startTime = Date.now();
-		while (Date.now() - startTime < waitSeconds * 1000) {
-			await Promise.resolve();
-		}
+		await sleep(waitSeconds * 1000);
 
 		attempts++;
 	}

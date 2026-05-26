@@ -49,7 +49,7 @@ export async function getSourceLanguages(this: ILoadOptionsFunctions): Promise<I
 		const languages = await fetchLanguages.call(this);
 		const options = mapLanguages(languages);
 		options.unshift({
-			name: 'Auto-detect',
+			name: 'Auto-Detect',
 			value: '',
 			description: 'Automatically detect source language',
 		});
@@ -57,7 +57,7 @@ export async function getSourceLanguages(this: ILoadOptionsFunctions): Promise<I
 	} catch {
 		const options = mapLanguages(FALLBACK_LANGUAGES, true);
 		options.unshift({
-			name: 'Auto-detect',
+			name: 'Auto-Detect',
 			value: '',
 			description: 'Automatically detect source language',
 		});
